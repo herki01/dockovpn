@@ -1,6 +1,4 @@
-FROM alpine:3.14.1
-
-LABEL maintainer="Alexander Litvinenko <array.shift@yahoo.com>"
+FROM ubuntu:20.04
 
 ENV APP_NAME Dockovpn
 ENV APP_INSTALL_PATH /opt/${APP_NAME}
@@ -13,7 +11,8 @@ COPY scripts .
 COPY config ./config
 COPY VERSION ./config
 
-RUN apk add --no-cache openvpn easy-rsa bash netcat-openbsd zip dumb-init && \
+RUN apt update
+RUN apt-get install -y openvpn easy-rsa bash netcat-openbsd zip dumb-init ufw iptables && \
     ln -s /usr/share/easy-rsa/easyrsa /usr/bin/easyrsa && \
     mkdir -p ${APP_PERSIST_DIR} && \
     cd ${APP_PERSIST_DIR} && \
